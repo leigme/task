@@ -1,0 +1,43 @@
+server:
+  port: 8088
+
+spring:
+  session:
+    store-type: redis
+  ##默认数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/task_db?useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;autoReconnect=true
+    username: root
+    password: root1234
+    ##数据库链接池参数配置
+    #指定使用哪个连接池，默认使用tomcate-jdbc连接池
+    type: org.apache.commons.dbcp2.BasicDataSource
+    dbcp2:
+      #连接池使用的数据库驱动类
+      driver-class-name: com.mysql.jdbc.Driver
+      #连接池使用的数据库账号
+      username: root
+      #连接池使用的数据库密码
+      password: root1234
+      #初始化链接数
+      initial-size: 5
+      #最小空闲数量
+      min-idle: 5
+      #最大等待时间 - 60秒
+      max-wait-millis: 10000
+      validation-query: SELECT x
+      connection-properties: characterEncoding=utf8
+  ##模板框架
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html
+    mode: HTML5
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: me.leig.task.dao.model
