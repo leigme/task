@@ -7,7 +7,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @SpringBootApplication
 @EnableRedisHttpSession
-@MapperScan("me.leig.task.dao.mapper")
+@MapperScan({"me.leig.task.conf", "me.leig.task.dao.mapper"})
 public class TaskApplication {
 
 	public static void main(String[] args) {

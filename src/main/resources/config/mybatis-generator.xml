@@ -10,10 +10,10 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <!--数据库链接地址账号密码-->
-        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/task_db"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://10.202.201.106:3306/task_db"
                         userId="root"
-                        password="root1234">
+                        password="root">
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -38,8 +38,48 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成对应表及类名-->
-        <table tableName="task_userinfo"
+        <table tableName="userinfo"
                domainObjectName="UserInfo"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false" />
+
+        <table tableName="taskinfo"
+               domainObjectName="TaskInfo"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false" />
+
+        <table tableName="tasktype"
+               domainObjectName="TaskType"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false" />
+
+        <table tableName="resource"
+               domainObjectName="Resource"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false" />
+
+        <table tableName="permission"
+               domainObjectName="Permission"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false" />
+
+        <table tableName="groups"
+               domainObjectName="Groups"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

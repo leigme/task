@@ -1,0 +1,43 @@
+server:
+  port: 80
+
+spring:
+  redis:
+    database: 0
+    host: 10.202.201.145
+    port: 6379
+    session:
+      store-type: redis
+
+  ##默认数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://10.202.201.106:3306/task_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+      username: root
+      password: root
+      #指定使用哪个连接池，默认使用tomcate-jdbc连接池
+      type: org.apache.commons.dbcp2.BasicDataSource
+      ##数据库链接池参数配置
+      dbcp2:
+        #最大数量
+        max-total: 5
+        #最大等待时间 - 60秒
+        max-wait-millis: 10000
+        #最小空闲数量
+        min-idle: 5
+        #初始化链接数
+        initial-size: 5
+
+  ##模板框架
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html
+    mode: HTML5
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: me.leig.task.dao.model
