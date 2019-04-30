@@ -4,12 +4,15 @@ import me.leig.task.base.BaseController;
 import me.leig.task.base.Constant;
 import me.leig.task.dao.model.UserInfo;
 import me.leig.task.model.Result;
+import me.leig.task.service.CacheService;
 import me.leig.task.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -19,9 +22,12 @@ public class UserInfoController extends BaseController {
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    private CacheService cacheService;
+
     @RequestMapping(value = "login", method = {RequestMethod.POST})
     @ResponseBody
-    public Result<String> login(@RequestParam String username, @RequestParam String password) {
+    public Result<String> login(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
         Result<String> result = new Result<>();
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             result.setErrorCode(Constant.ERROR_CODE_FAILURE);
@@ -41,6 +47,9 @@ public class UserInfoController extends BaseController {
             return result;
         }
         result.setT(token);
+        cacheService.setCache(username, token);
+        response.setHeader("username", username);
+        response.setHeader("token", token);
         return result;
     }
 
