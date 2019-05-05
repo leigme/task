@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/" lang="en">
 <head>
-    <meta content="text/html" charset="UTF-8">
-    <link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}"/>
+    <div th:include="base/comm :: header"></div>
     <link rel="stylesheet" th:href="@{css/signin.css}"/>
-    <title>登录</title>
 </head>
 <body>
 
-<form class="form-signin" id="login_frame" method="GET" action="index">
+<form class="form-signin" id="login_frame">
     <h1 class="h3 mb-3 font-weight-normal">用户登录</h1>
     <label for="inputEmail" class="sr-only">账号</label>
     <input type="text" id="inputEmail" name="username" class="form-control" placeholder="请输入账号" required autofocus>
@@ -19,23 +17,23 @@
             <input type="checkbox" value="remember-me"> 记住账号密码
         </label>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2019-2020</p>
+    <button class="btn btn-lg btn-primary btn-block" type="button" onclick="onSubmit()">登录</button>
+    <div th:include="base/comm :: copyright"></div>
 </form>
 </body>
-<script th:src="@{js/jquery-3.3.1.min.js}"></script>
+<div th:include="base/comm :: comm_js"></div>
 <script type="text/javascript">
-var onSubmit = function() {
+function onSubmit() {
 var username = $("#inputEmail").val()
 var password = $("#inputPassword").val()
 var params = {username, password}
  $.ajax({
       type: "POST",
-      url: "/login",
+      url: "user/login",
       data: params,
       dataType : "json",
-      success: function(respMsg, textStatus) {
-        window.location.href = "index";
+      success: function(respMsg) {
+        window.location.href = "index?username=" + respMsg.t.username + "&token=" + respMsg.t.token;
       }
    });
 }

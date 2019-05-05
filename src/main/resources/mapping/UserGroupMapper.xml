@@ -1,51 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.leig.task.dao.mapper.TaskTypeMapper">
-    <resultMap id="BaseResultMap" type="me.leig.task.dao.model.TaskType">
+<mapper namespace="me.leig.task.dao.mapper.UserGroupMapper">
+    <resultMap id="BaseResultMap" type="me.leig.task.dao.model.UserGroup">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="group_id" jdbcType="INTEGER" property="groupId"/>
         <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
         <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime"/>
         <result column="deletetime" jdbcType="TIMESTAMP" property="deletetime"/>
         <result column="deleteflag" jdbcType="INTEGER" property="deleteflag"/>
     </resultMap>
-    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="me.leig.task.dao.model.TaskType">
-        <result column="description" jdbcType="LONGVARCHAR" property="description"/>
-    </resultMap>
     <sql id="Base_Column_List">
-        id, title, createtime, updatetime, deletetime, deleteflag
+        id, user_id, group_id, createtime, updatetime, deletetime, deleteflag
     </sql>
-    <sql id="Blob_Column_List">
-        description
-    </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        from tasktype
+        from user_group
         where id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from tasktype
+        delete from user_group
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="me.leig.task.dao.model.TaskType">
-        insert into tasktype (id, title, createtime,
-        updatetime, deletetime, deleteflag,
-        description)
-        values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
-        #{updatetime,jdbcType=TIMESTAMP}, #{deletetime,jdbcType=TIMESTAMP}, #{deleteflag,jdbcType=INTEGER},
-        #{description,jdbcType=LONGVARCHAR})
+    <insert id="insert" parameterType="me.leig.task.dao.model.UserGroup">
+        insert into user_group (id, user_id, group_id,
+        createtime, updatetime, deletetime,
+        deleteflag)
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER},
+        #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{deletetime,jdbcType=TIMESTAMP},
+        #{deleteflag,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" parameterType="me.leig.task.dao.model.TaskType">
-        insert into tasktype
+    <insert id="insertSelective" parameterType="me.leig.task.dao.model.UserGroup">
+        insert into user_group
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
             </if>
-            <if test="title != null">
-                title,
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="groupId != null">
+                group_id,
             </if>
             <if test="createtime != null">
                 createtime,
@@ -59,16 +55,16 @@
             <if test="deleteflag != null">
                 deleteflag,
             </if>
-            <if test="description != null">
-                description,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 #{id,jdbcType=INTEGER},
             </if>
-            <if test="title != null">
-                #{title,jdbcType=VARCHAR},
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=INTEGER},
             </if>
             <if test="createtime != null">
                 #{createtime,jdbcType=TIMESTAMP},
@@ -82,16 +78,16 @@
             <if test="deleteflag != null">
                 #{deleteflag,jdbcType=INTEGER},
             </if>
-            <if test="description != null">
-                #{description,jdbcType=LONGVARCHAR},
-            </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="me.leig.task.dao.model.TaskType">
-        update tasktype
+    <update id="updateByPrimaryKeySelective" parameterType="me.leig.task.dao.model.UserGroup">
+        update user_group
         <set>
-            <if test="title != null">
-                title = #{title,jdbcType=VARCHAR},
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=INTEGER},
             </if>
             <if test="createtime != null">
                 createtime = #{createtime,jdbcType=TIMESTAMP},
@@ -105,29 +101,37 @@
             <if test="deleteflag != null">
                 deleteflag = #{deleteflag,jdbcType=INTEGER},
             </if>
-            <if test="description != null">
-                description = #{description,jdbcType=LONGVARCHAR},
-            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKeyWithBLOBs" parameterType="me.leig.task.dao.model.TaskType">
-        update tasktype
-        set title = #{title,jdbcType=VARCHAR},
-        createtime = #{createtime,jdbcType=TIMESTAMP},
-        updatetime = #{updatetime,jdbcType=TIMESTAMP},
-        deletetime = #{deletetime,jdbcType=TIMESTAMP},
-        deleteflag = #{deleteflag,jdbcType=INTEGER},
-        description = #{description,jdbcType=LONGVARCHAR}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="me.leig.task.dao.model.TaskType">
-        update tasktype
-        set title = #{title,jdbcType=VARCHAR},
+
+    <update id="updateByPrimaryKey" parameterType="me.leig.task.dao.model.UserGroup">
+        update user_group
+        set user_id = #{userId,jdbcType=INTEGER},
+        group_id = #{groupId,jdbcType=INTEGER},
         createtime = #{createtime,jdbcType=TIMESTAMP},
         updatetime = #{updatetime,jdbcType=TIMESTAMP},
         deletetime = #{deletetime,jdbcType=TIMESTAMP},
         deleteflag = #{deleteflag,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+    <select id="selectResourceByUsername" parameterType="java.lang.String"
+            resultMap="me.leig.task.dao.mapper.ResourceMapper.BaseResultMap">
+        SELECT
+        t4.id,
+        t4.title,
+        t4.uri,
+        t4.createtime,
+        t4.updatetime,
+        t4.deletetime,
+        t4.deleteflag
+        FROM
+        user_group t1
+        INNER JOIN userinfo t2 ON t1.user_id = t2.id
+        INNER JOIN permission t3 ON t1.group_id = t3.group_id
+        INNER JOIN resource t4 ON t3.resource_id = t4.id
+        WHERE
+        t2.account = #{account, jdbcType=VARCHAR};
+    </select>
 </mapper>

@@ -7,13 +7,16 @@ import me.leig.task.model.Result;
 import me.leig.task.service.CacheService;
 import me.leig.task.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("user")
@@ -27,8 +30,8 @@ public class UserInfoController extends BaseController {
 
     @RequestMapping(value = "login", method = {RequestMethod.POST})
     @ResponseBody
-    public Result<String> login(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
-        Result<String> result = new Result<>();
+    public Result<Map<String, String>> login(@RequestParam String username, @RequestParam String password) {
+        Result<Map<String, String>> result = new Result<>();
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             result.setErrorCode(Constant.ERROR_CODE_FAILURE);
             result.setErrorMessage(Constant.ERROR_MESSAGE_FAILURE);
@@ -46,10 +49,11 @@ public class UserInfoController extends BaseController {
             result.setErrorMessage(Constant.ERROR_MESSAGE_FAILURE);
             return result;
         }
-        result.setT(token);
         cacheService.setCache(username, token);
-        response.setHeader("username", username);
-        response.setHeader("token", token);
+        Map<String, String> map = new HashMap<>();
+        map.put("username", username);
+        map.put("token", token);
+        result.setT(map);
         return result;
     }
 

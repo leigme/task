@@ -2,6 +2,8 @@ package me.leig.task.dao.mapper;
 
 import me.leig.task.dao.model.Permission;
 
+import java.util.List;
+
 public interface PermissionMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,5 @@ public interface PermissionMapper {
     int updateByPrimaryKeySelective(Permission record);
 
     int updateByPrimaryKey(Permission record);
+
 }
